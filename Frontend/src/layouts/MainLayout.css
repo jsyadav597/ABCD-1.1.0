@@ -1,0 +1,66 @@
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  background-color: #f9fafb;
+  padding: 2rem 1rem;
+}
+
+.main-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.layout-body {
+  display: flex;
+  gap: 1rem;
+}
+
+/* When the sidebar is fixed (default) make the main content account for its width */
+.layout-body .main-content {
+  margin-left: var(--nav-width);
+  width: calc(100vw - var(--nav-width));
+  transition: margin-left 0.3s ease, width 0.3s ease;
+  overflow-x: hidden; /* prevent horizontal scrollbar caused by layout */
+}
+
+/* When collapsed, main content should take full width */
+.layout-body.collapsed .main-content {
+  margin-left: 0;
+  width: 100vw;
+}
+
+
+@media (max-width: 768px) {
+  .menu-bar {
+    display: none;
+  }
+}
+
+.main-footer {
+  background-color: #f8f9fa;
+  border-top: 0.0625rem solid #e5e7eb;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.main-footer p {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem 0.5rem;
+  }
+
+  .main-footer {
+    padding: 1.5rem 1rem;
+  }
+}
