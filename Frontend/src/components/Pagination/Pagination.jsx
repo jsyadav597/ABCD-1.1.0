@@ -33,7 +33,7 @@ const Pagination = ({
         disabled={currentPage === 1}
         className="pagination-btn pagination-prev"
       >
-        ← Previous
+        ← Previous  
       </button>
 
       <div className="pagination-pages">

@@ -5,6 +5,7 @@ import MainLayout from './layouts/MainLayout'
 // Pages
 import Dashboard from './pages/Dashboard'
 import NotFound from './pages/NotFound'
+import Users from './pages/Users/Users'
 
 function App() {
   return (
@@ -16,6 +17,15 @@ function App() {
             element={
               <MainLayout>
                 <Dashboard />
+              </MainLayout>
+            }
+          />
+
+          <Route
+            path="/users"
+            element={
+              <MainLayout>
+                <Users />
               </MainLayout>
             }
           />
