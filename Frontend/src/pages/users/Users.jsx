@@ -133,10 +133,28 @@ const Users = () => {
               setRowActionStyle(null)
               return
             }
-            // open popup anchored to this button (use viewport coords)
+            // open popup anchored to this button, positioned relative to table container
             const btn = e.currentTarget
             const rect = btn.getBoundingClientRect()
-            setRowActionAnchor(rect)
+            const container = tableWrapRef.current
+            if (!container) return
+            
+            const containerRect = container.getBoundingClientRect()
+            
+            // compute position relative to container (accounting for scroll)
+            const estimatedW = 160
+            const estimatedH = 120
+            const margin = 8
+            
+            let left = rect.left - containerRect.left + container.scrollLeft - estimatedW - margin
+            if (left < margin) left = rect.right - containerRect.left + container.scrollLeft + margin
+            
+            let top = rect.bottom - containerRect.top + container.scrollTop + 6
+            const maxTop = container.clientHeight - estimatedH - margin
+            if (top - container.scrollTop > maxTop) top = container.scrollTop + Math.max(margin, maxTop)
+            
+            setRowActionAnchor({ rect, container, containerRect })
+            setRowActionStyle({ position: 'absolute', top: top + 'px', left: left + 'px' })
             setRowActionOpen(row.id)
           }}
           aria-label="Row actions"
@@ -164,30 +182,29 @@ const Users = () => {
     return () => document.removeEventListener('mousedown', handleDocClick)
   }, [rowActionOpen])
 
-  // compute fixed popup position when anchor or popup changes
+  // refine popup position based on actual popup size once mounted
   useEffect(() => {
     if (!rowActionOpen || !rowActionAnchor || !popupRef.current) {
-      setRowActionStyle(null)
       return
     }
 
+    const { rect, container, containerRect } = rowActionAnchor
     const popup = popupRef.current
     const pw = popup.offsetWidth || 160
     const ph = popup.offsetHeight || 120
     const margin = 8
 
-    // prefer left of button
-    let left = Math.round(rowActionAnchor.left - pw - margin)
+    // prefer left of button (relative to container)
+    let left = rect.left - containerRect.left + container.scrollLeft - pw - margin
     // if not enough space on left, place to right
-    if (left < margin) left = Math.round(rowActionAnchor.right + margin)
+    if (left < margin) left = rect.right - containerRect.left + container.scrollLeft + margin
 
-    // top aligned to button top; clamp to viewport
-    let top = Math.round(rowActionAnchor.top)
-    const maxTop = window.innerHeight - ph - margin
-    if (top > maxTop) top = Math.max(margin, maxTop)
-    if (top < margin) top = margin
+    // top below button (relative to container)
+    let top = rect.bottom - containerRect.top + container.scrollTop + 6
+    const maxTop = container.clientHeight - ph - margin
+    if (top - container.scrollTop > maxTop) top = container.scrollTop + Math.max(margin, maxTop)
 
-    setRowActionStyle({ position: 'fixed', top: top + 'px', left: left + 'px' })
+    setRowActionStyle({ position: 'absolute', top: top + 'px', left: left + 'px' })
   }, [rowActionOpen, rowActionAnchor])
 
   return (
