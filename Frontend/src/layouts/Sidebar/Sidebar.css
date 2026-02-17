@@ -1,18 +1,7 @@
-/* .menu-bar {
-  width: 240px;
-  height: 100vh;
-  background: #1f2937;
-  color: #fff;
-}
-.menu-bar.collapsed {
-  transform: translateX(-100%);
-}
-.menu a {
-  display: block;
-  padding: 12px;
-  color: #fff;
-  text-decoration: none;
-} */
+/* ============================================
+   SIDEBAR - RESPONSIVE DESIGN
+   ============================================ */
+
 .menu-bar {
   position: fixed;
   top: var(--header-height);
@@ -27,15 +16,13 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  transition: width 0.6s ease-in-out;
-  overflow: hidden;
-  -webkit-transition: width 0.8s ease-in-out;
-  -moz-transition: width 0.6s ease-in-out;
-  -ms-transition: width 0.6s ease-in-out;
-  -o-transition: width 0.6s ease-in-out;
+  transition: width 0.6s ease-in-out, transform 0.3s ease;
 }
 
-/* Vertical layout */
+/* ============================================
+   MENU ITEMS - STYLING
+   ============================================ */
+
 .menu {
   list-style: none;
   display: flex;
@@ -45,25 +32,34 @@
   padding: 0 0 4rem 0;
 }
 
-/* Menu items */
 .menu li {
   position: relative;
 }
 
-.menu a {
+.menu a,
+.menu button,
+.user-toggle {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   color: #e5e7eb;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: 500;
+  background: none;
+  border: none;
+  cursor: pointer;
   text-decoration: none;
   transition: background 0.3s ease, color 0.3s ease;
+  width: 100%;
+  text-align: left;
 }
 
-.menu a:hover {
+.menu a:hover,
+.menu-btn:hover,
+.user-toggle:hover {
   background: var(--menu-hover-color);
+  color: #FFA718;
 }
 
 /* Icon styling */
@@ -71,146 +67,144 @@
   font-size: 1.3rem;
   color: #9ca3af;
   transition: color 0.3s ease;
+  flex-shrink: 0;
 }
 
+.menu a:hover .material-icons,
+.menu-btn:hover .material-icons {
+  color: #FFA718;
+}
+
+/* Menu text */
+.menu-text {
+  white-space: nowrap;
+}
+
+/* Submenu arrow */
 .has-submenu > a::after {
-  content: "▶"; /* Right arrow */
+  content: "▶";
   margin-left: auto;
   font-size: 0.7rem;
   transition: transform 0.3s ease;
+  flex-shrink: 0;
 }
-
-.menu a,
-.menu button, .user-toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  color: #e5e7eb;
-  font-size: 1rem;
-  font-weight: 500;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
 
 .has-submenu:hover > a::after {
   transform: rotate(90deg);
 }
 
-/* Dropdown menu (opens to the right) */
+/* ============================================
+   DROPDOWN MENU
+   ============================================ */
+
 .dropdown-menu {
-  position: absolute;
   list-style: none;
-  top: 0;
-  left: 100%;
-  background: #374151;
-  border-radius: 0 var(--radius) var(--radius) 0;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   display: none;
   flex-direction: column;
-  min-width: 12rem;
-  z-index: 9999;
-  -webkit-border-radius: 0 var(--radius) var(--radius);
-  -moz-border-radius: 0 var(--radius) var(--radius);
-  -ms-border-radius: 0 var(--radius) var(--radius);
-  -o-border-radius: 0 var(--radius) var(--radius);
-}
-
-/* Dropdown items */
-.dropdown-menu li {
+  gap: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  margin: 0;
   padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
 }
 
-.dropdown-menu a {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.6rem 1rem;
-  color: #d1d5db;
-  font-size: 0.95rem;
-  white-space: nowrap;
-  transition: background 0.3s ease, color 0.3s ease;
+.dropdown-menu li {
+  margin: 0;
 }
 
-.dropdown-menu a:hover {
-  background-color: var(--primary-color);
-  color: #fff;
+.dropdown-menu li a {
+  padding-left: 3rem;
+  padding: 0.6rem 1rem 0.6rem 3rem;
+  font-size: 0.85rem;
+  background-color: rgba(255, 167, 24, 0.05);
 }
 
-/* Show dropdown on hover (right side) */
+.dropdown-menu li a:hover {
+  background-color: rgba(255, 167, 24, 0.15);
+}
+
+.dropdown-menu li a .material-icons {
+  font-size: 1.1rem;
+}
+
 .dropdown:hover .dropdown-menu {
   display: flex;
-  top: 0;
-  left: 100%;
+  max-height: 500px;
 }
 
-/* Ensure dropdown stays visible inside sidebar area */
-.menu-bar {
-  overflow: visible;
+.dropdown.active .dropdown-menu {
+  display: flex;
+  max-height: 500px;
 }
 
-/* === COLLAPSIBLE SIDEBAR === */
-.menu-bar {
-  transition: transform 0.3s ease, width 0.3s ease;
-  -webkit-transition: transform 0.3s ease, width 0.3s ease;
-  -moz-transition: transform 0.3s ease, width 0.3s ease;
-  -ms-transition: transform 0.3s ease, width 0.3s ease;
-  -o-transition: transform 0.3s ease, width 0.3s ease;
-}
+/* ============================================
+   USER DETAILS SECTION
+   ============================================ */
 
-/* Hide sidebar when collapsed */
-.menu-bar.collapsed {
-  transform: translateX(-100%);
-}
-
-/*! === USER DETAILS FIXED AT BOTTOM === */
 .user-details {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%; /* same as sidebar width */
-  background: #111827;
-  /* border-top: 1px solid var(--border-color); */
-  z-index: 1000;
+  position: relative;
+  border-top: 1px solid #374151;
+  padding: 0;
+  margin-top: auto;
+  transition: all 0.3s ease;
 }
 
-.user-details a {
+.user-toggle {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.9rem 1rem;
-  color: #e5e7eb;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
-  text-decoration: none;
+  background: none;
+  border: none;
+  color: #e5e7eb;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
   transition: background 0.3s ease, color 0.3s ease;
 }
 
-.user-details a:hover {
-  background: rgba(37, 99, 235, 0.15);
-  /* color: var(--primary-color); */
+.user-toggle:hover {
+  background: rgba(255, 167, 24, 0.1);
+  color: #FFA718;
 }
 
-.user-details .material-icons {
-  font-size: 1.5rem;
+.user-toggle .material-icons {
+  font-size: 1.3rem;
   color: #9ca3af;
-  transition: color 0.3s ease;
+  flex-shrink: 0;
 }
 
-/* === USER PANEL (POPUP ABOVE USER SECTION) === */
+.user-toggle:hover .material-icons {
+  color: #FFA718;
+}
+
+/* ============================================
+   USER PANEL - DROPDOWN MENU
+   ============================================ */
+
 .user-panel {
   position: absolute;
-  bottom: 3.6rem; /* just above the user-details section */
+  bottom: 100%;
   left: 0;
-  width: 100%;
+  right: 0;
   background: #374151;
+  border-top: 1px solid #2d3748;
+  border-radius: 8px 8px 0 0;
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
   display: none;
   flex-direction: column;
-  padding: 0.5rem 0;
+  gap: 0;
+  margin-bottom: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
   z-index: 1100;
- 
+  min-width: 100%;
 }
 
 .user-panel button {
@@ -218,28 +212,208 @@
   align-items: center;
   gap: 0.6rem;
   width: 100%;
-  padding: 0.6rem 1rem;
+  padding: 0.65rem 1rem;
   background: none;
   border: none;
   color: #e5e7eb;
   text-align: left;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease;
+  border-bottom: 1px solid #2d3748;
+}
+
+.user-panel button:last-child {
+  border-bottom: none;
 }
 
 .user-panel button:hover {
-  background: rgba(37, 99, 235, 0.15);
-  /* color: var(--primary-color); */
+  background: rgba(255, 167, 24, 0.15);
+  color: #FFA718;
 }
 
 .user-panel .material-icons {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: #9ca3af;
+  flex-shrink: 0;
+}
+
+.user-panel button:hover .material-icons {
+  color: #FFA718;
 }
 
 /* Show panel when active */
 .user-details.active .user-panel {
   display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS - TABLET
+   ============================================ */
+
+@media (max-width: 992px) {
+  .menu-bar {
+    width: 16rem;
+  }
+
+  .menu a,
+  .menu button,
+  .user-toggle {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .menu .material-icons {
+    font-size: 1.2rem;
+  }
+
+  .dropdown-menu li a {
+    padding: 0.55rem 1rem 0.55rem 3rem;
+    font-size: 0.8rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS - MOBILE LANDSCAPE
+   ============================================ */
+
+@media (max-width: 768px) {
+  .menu-bar {
+    width: 15rem;
+  }
+
+  .menu {
+    padding: 0 0 3rem 0;
+  }
+
+  .menu a,
+  .menu button,
+  .user-toggle {
+    padding: 0.65rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .menu .material-icons {
+    font-size: 1.15rem;
+  }
+
+  .dropdown-menu li a {
+    padding: 0.5rem 0.9rem 0.5rem 2.8rem;
+    font-size: 0.75rem;
+  }
+
+  .has-submenu > a::after {
+    font-size: 0.65rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS - MOBILE SMALL
+   ============================================ */
+
+@media (max-width: 576px) {
+  .menu-bar {
+    width: 14rem;
+  }
+
+  .menu a,
+  .menu button,
+  .user-toggle {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.8rem;
+    gap: 0.5rem;
+  }
+
+  .menu .material-icons {
+    font-size: 1.1rem;
+  }
+
+  .dropdown-menu li a {
+    padding: 0.5rem 0.8rem 0.5rem 2.6rem;
+    font-size: 0.72rem;
+  }
+
+  .user-details {
+    padding: 0.75rem;
+  }
+
+  .user-toggle {
+    padding: 0.4rem 0;
+  }
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS - EXTRA SMALL
+   ============================================ */
+
+@media (max-width: 480px) {
+  .menu-bar {
+    width: 13rem;
+  }
+
+  .menu {
+    gap: 0.15rem;
+    padding: 0 0 2.5rem 0;
+  }
+
+  .menu a,
+  .menu button,
+  .user-toggle {
+    padding: 0.55rem 0.7rem;
+    font-size: 0.75rem;
+    gap: 0.4rem;
+  }
+
+  .menu .material-icons {
+    font-size: 1rem;
+  }
+
+  .dropdown-menu li a {
+    padding: 0.45rem 0.7rem 0.45rem 2.4rem;
+    font-size: 0.7rem;
+  }
+
+  .has-submenu > a::after {
+    font-size: 0.6rem;
+  }
+
+  .user-details {
+    padding: 0.6rem;
+  }
+
+  .user-toggle {
+    font-size: 0.75rem;
+  }
+}
+
+/* ============================================
+   RESPONSIVE ADJUSTMENTS - DESKTOP (ALWAYS VISIBLE)
+   ============================================ */
+
+/* Desktop: allow MainLayout to control sidebar visibility via transform */
+/* No forcing rules here - let MainLayout.css handle the toggle */
+
+/* ============================================
+   SCROLLBAR STYLING
+   ============================================ */
+
+.menu-bar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.menu-bar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.menu-bar::-webkit-scrollbar-thumb {
+  background: #4b5563;
+  border-radius: 3px;
+}
+
+.menu-bar::-webkit-scrollbar-thumb:hover {
+  background: #6b7280;
 }
 

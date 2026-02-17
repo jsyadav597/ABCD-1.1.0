@@ -10,8 +10,8 @@ const NotFound = () => {
         <div className="not-found-number">404</div>
         <h1>Page Not Found</h1>
         <p>Sorry, the page you're looking for doesn't exist.</p>
-        <Link to="/dashboard">
-          <Button variant="primary">Go to Dashboard</Button>
+        <Link to="/">
+          <Button  variant="primary">Go to Dashboard</Button>
         </Link>
       </div>
     </div>
