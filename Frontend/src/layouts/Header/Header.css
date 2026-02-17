@@ -8,8 +8,8 @@ header {
   align-items: center;
   height: var(--header-height);
   padding: 0 1rem;
-  background: #111827;
-  color: #FFA718;
+  background: #0c3c78;
+  color: #fbbf24;
   position: sticky;
   top: 0;
   z-index: 999;
@@ -43,7 +43,7 @@ header {
 }
 
 .hamburger:hover {
-  color: #FFA718;
+  color: #fbbf24;
 }
 
 .logo a {

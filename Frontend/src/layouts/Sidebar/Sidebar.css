@@ -8,7 +8,7 @@
   left: 0;
   width: var(--nav-width);
   height: calc(100vh - var(--header-height));
-  background-color: #1f2937;
+  background-color: #1e40af;
   border-right: 1px solid var(--border-color);
   overflow-y: auto;
   z-index: 999;

@@ -27,7 +27,7 @@ const defaultColumns = [
 ]
 
 const Users = () => {
-  const [users] = useState(() => makeMockUsers(57))
+  const [users] = useState(() => makeMockUsers(1000))
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize] = useState(20)
@@ -212,14 +212,14 @@ const Users = () => {
       <div className="users-header">
         <h1>Users</h1>
         <div className="users-actions">
-          <Button variant="secondary" size="sm">Filter</Button>
-          <Button variant="primary" size="sm">Add User</Button>
+          <Button variant="secondary" size="md">Filter</Button>
+          <Button variant="primary" size="md">Add User</Button>
           {selectedRows.size >= 2 && (
-            <Button variant="danger" size="sm" onClick={() => setSelectedRows(new Set())}>
+            <Button variant="danger" size="md" onClick={() => setSelectedRows(new Set())}>
               Disable ({selectedRows.size})
             </Button>
           )}
-          <Button variant="outline" size="sm" onClick={() => setIsColumnsModalOpen(true)}>
+          <Button variant="outline" size="md" onClick={() => setIsColumnsModalOpen(true)}>
             Columns
           </Button>
         </div>
