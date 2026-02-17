@@ -1,11 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
-import MainLayout from './layouts/MainLayout'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import MainLayout from "./layouts/MainLayout";
 
 // Pages
-import Dashboard from './pages/Dashboard'
-import NotFound from './pages/NotFound'
-import Users from './pages/Users/Users'
+import Dashboard from "./pages/Dashboard";
+import NotFound from "./pages/NotFound";
+import Users from "./pages/Users/Users";
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
         </Routes>
       </AuthProvider>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

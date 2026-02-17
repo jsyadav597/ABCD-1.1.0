@@ -6,17 +6,7 @@ import Button from '../../components/Button/Button'
 import Pagination from '../../components/Pagination/Pagination'
 import Modal from '../../components/Modal/Modal'
 
-const makeMockUsers = (n = 50) => {
-  const roles = ['Admin', 'Manager', 'User']
-  return Array.from({ length: n }).map((_, i) => ({
-    id: i + 1,
-    name: `User ${i + 1}`,
-    email: `user${i + 1}@example.com`,
-    role: roles[i % roles.length],
-    status: i % 5 === 0 ? 'Disabled' : 'Active',
-    lastLogin: `${Math.max(1, (i % 28) + 1)}/02/2026`,
-  }))
-}
+import { userAPI } from '../../services/api'
 
 const defaultColumns = [
   { key: 'name', label: 'Name' },
@@ -27,7 +17,9 @@ const defaultColumns = [
 ]
 
 const Users = () => {
-  const [users] = useState(() => makeMockUsers(1000))
+  const [users, setUsers] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [search, setSearch] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
   const [pageSize] = useState(20)
@@ -41,6 +33,39 @@ const Users = () => {
   const [rowActionStyle, setRowActionStyle] = useState(null)
   const tableWrapRef = useRef(null)
   const popupRef = useRef(null)
+
+  // Fetch users from API
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const response = await userAPI.getAll()
+        // Backend returns: { statusCode, data: { items, meta }, message }
+        const userData = response.data?.data?.items || response.data?.items || []
+        
+        // Transform backend users to match table format
+        const transformedUsers = userData.map(user => ({
+          id: user._id || user.id,
+          name: user.name || '',
+          email: user.email || '',
+          role: user.role || 'user',
+          status: user.isActive ? (user.canLogin ? 'Active' : 'Disabled') : 'Inactive',
+          lastLogin: user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Never',
+        }))
+        
+        setUsers(transformedUsers)
+      } catch (err) {
+        setError(err.response?.data?.message || 'Failed to fetch users')
+        console.error('Error fetching users:', err)
+        setUsers([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUsers()
+  }, [])
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()
@@ -242,7 +267,9 @@ const Users = () => {
           </div>
         </div>
 
-        <Table columns={columnsForTable} data={pageData} />
+        {loading && <div className="loading-message">Loading users...</div>}
+        {error && <div className="error-message">Error: {error}</div>}
+        {!loading && !error && <Table columns={columnsForTable} data={pageData} />}
 
         {/* Inline row action popup positioned next to the clicked button */}
         {rowActionOpen && rowActionStyle && (

@@ -39,9 +39,9 @@ const MainLayout = ({ children }) => {
           </div>
         </main>
       </div>
-      <footer className="main-footer">
+      {/* <footer className="main-footer">
         <p>&copy; 2026 ABCD. All rights reserved.</p>
-      </footer>
+      </footer> */}
     </div>
   )
 }
